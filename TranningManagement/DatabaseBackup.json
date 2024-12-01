@@ -1,0 +1,28 @@
+{
+  "Users": [
+    {
+      "user_id": 4,
+      "Name": "mai",
+      "Email": "mai@gmail.com",
+      "password_hash": "59DfJwALoe2KU24SAB7wqA==:WYOKdTLnpR0ZbjFqnZEp000FKI7YqlODez03ETLiC\u002Bw=",
+      "Role": "student",
+      "Status": 0
+    },
+    {
+      "user_id": 5,
+      "Name": "hieu",
+      "Email": "trunghieupht66@gmail.com",
+      "password_hash": "I1EcDGImLt7z2nEdYH6MsA==:ixO2WM2TqFIf8eq8zE2y9LYSBFT5qqP\u002BR4jBvwKiJk8=",
+      "Role": "student",
+      "Status": 1
+    },
+    {
+      "user_id": 6,
+      "Name": "hau",
+      "Email": "hau0@gmail.com",
+      "password_hash": "mb\u002BXINlMCsAgEcvwNJaJEw==:XURQIzkNdqkQZxOD4gZZWJJhnzaDwkI8BI86tkpSpfQ=",
+      "Role": "teacher",
+      "Status": 1
+    }
+  ]
+}
