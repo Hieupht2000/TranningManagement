@@ -289,7 +289,7 @@ namespace TranningManagement.Controllers
                                         else
                                         {
                                             // Trường hợp không thể chuyển đổi, thông báo lỗi ho
-                                            return BadRequest($"Invalid schedule_time format: {schedule.schedule_time}");
+                                            return BadRequest($"uvaid schedule_time format: {schedule.schedule_time}");
                                         }
                                     }
                                     catch (Exception ex)
