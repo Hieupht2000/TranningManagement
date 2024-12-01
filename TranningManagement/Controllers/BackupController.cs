@@ -272,39 +272,39 @@ namespace TranningManagement.Controllers
                             if (classes != null)
                                 await AddOrUpdateEntitiesAsync(classes, _context.Classes);
                             break;
-                        case "schedules":
-                            var schedules = JsonSerializer.Deserialize<List<Schedules>>(table.Value.GetRawText());
-                            if (schedules != null)
-                            {
-                                foreach (var schedule in schedules)
-                                {
-                                    try
-                                    {
-                                        // Kiểm tra xem schedule_time có phải là kiểu DateTime không
-                                        if (DateTime.TryParse(schedule.schedule_time.ToString(), out DateTime dateTime))
-                                        {
-                                            // Nếu là DateTime hợp lệ, gán vào schedule_time
-                                            schedule.schedule_time = dateTime;
-                                        }
-                                        else
-                                        {
-                                            // Trường hợp không thể chuyển đổi, thông báo lỗi
-                                            return BadRequest($"Invalid schedule_time format: {schedule.schedule_time}");
-                                        }
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        // Xử lý lỗi nếu có
-                                        return StatusCode(500, $"Error processing schedule time: {ex.Message}");
-                                    }
-                                }
+                        //case "schedules":
+                        //    var schedules = JsonSerializer.Deserialize<List<Schedules>>(table.Value.GetRawText());
+                        //    if (schedules != null)
+                        //    {
+                        //        foreach (var schedule in schedules)
+                        //        {
+                        //            try
+                        //            {
+                        //                // Kiểm tra xem schedule_time có phải là kiểu DateTime không
+                        //                if (DateTime.TryParse(schedule.schedule_time.ToString(), out DateTime dateTime))
+                        //                {
+                        //                    // Nếu là DateTime hợp lệ, gán vào schedule_time
+                        //                    schedule.schedule_time = dateTime;
+                        //                }
+                        //                else
+                        //                {
+                        //                    // Trường hợp không thể chuyển đổi, thông báo lỗi
+                        //                    return BadRequest($"Invalid schedule_time format: {schedule.schedule_time}");
+                        //                }
+                        //            }
+                        //            catch (Exception ex)
+                        //            {
+                        //                // Xử lý lỗi nếu có
+                        //                return StatusCode(500, $"Error processing schedule time: {ex.Message}");
+                        //            }
+                        //        }
 
-                                // Lưu các thay đổi vào database
-                                await AddOrUpdateEntitiesAsync(schedules, _context.schedules);
-                            }
-                            break;
-                        default:
-                            return BadRequest($"Table '{table.Key}' is not recognized.");
+                        //        // Lưu các thay đổi vào database
+                        //        await AddOrUpdateEntitiesAsync(schedules, _context.schedules);
+                        //    }
+                        //    break;
+                        //default:
+                        //    return BadRequest($"Table '{table.Key}' is not recognized.");
                     }
                 }
 
