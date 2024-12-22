@@ -1,50 +1,74 @@
-﻿using Xunit;
-using TranningManagement.Controllers;
+﻿using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using TranningManagement.Model;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity.Data;
-
 namespace TestProject
 {
+    [TestFixture]
     public class AuthServiceTests
     {
-        private readonly UserLoginController _userLoginController;
+        private ApplicationDbContext _context;
+        private AuthService _authService;
 
-        [Fact]
-        public void Login_WithCorrectCredentials_ReturnsTrue()
+        [SetUp]
+        public void Setup()
         {
-            // Arrange
-            //var authService = new AuthService();
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .Options;
 
-            UserloginDTO userLoginDTO = new UserloginDTO
-            {
-                Email = "testuser",
-                password_hash = "password123"
-            };
+            _context = new ApplicationDbContext(options);
+            _authService = new AuthService(_context);
 
-            var result = _userLoginController.Login(userLoginDTO);
-            
-            // Assert
-            Assert.True(result.IsCompletedSuccessfully);
+            // Thêm một người dùng giả vào cơ sở dữ liệu
+            _context.Users.Add(new User { Name = "testuser", password_hash = "password123" });
+            _context.SaveChanges();
         }
 
-        [Fact]
-        public void Login_WithIncorrectCredentials_ReturnsFalse()
+        [Test]
+        public async Task LoginAsync_UserNotFound_ReturnsUserNotFoundMessage()
         {
             // Arrange
-            //var authService = new AuthService();
-            // Arrange
-            var userLoginDTO = new UserloginDTO
-            {
-                Email = "testuser@example.com",
-                password_hash = "wrongpassword"
-            };
+            var username = "nonexistentuser";
+            var password = "password123";
 
             // Act
-            var result = _userLoginController.Login(userLoginDTO);
+            var result = await _authService.LoginAsync(username, password);
 
             // Assert
-            Assert.False(result.IsCanceled);
+            NUnit.Framework.Assert.AreEqual("User not found", result);
+        }
+
+        [Test]
+        public async Task LoginAsync_InvalidPassword_ReturnsInvalidPasswordMessage()
+        {
+            // Arrange
+            var username = "testuser";
+            var password = "wrongpassword";
+
+            // Act
+            var result = await _authService.LoginAsync(username, password);
+
+            // Assert
+            NUnit.Framework.Assert.AreEqual("Invalid password", result);
+        }
+
+        [Test]
+        public async Task LoginAsync_ValidCredentials_ReturnsLoginSuccessfulMessage()
+        {
+            // Arrange
+            var username = "testuser";
+            var password = "password123";
+
+            // Act
+            var result = await _authService.LoginAsync(username, password);
+
+            // Assert
+            NUnit.Framework.Assert.AreEqual("Login successful", result);
         }
     }
 }
